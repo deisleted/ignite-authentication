@@ -7,13 +7,15 @@ import { withSSRAuth } from "../utils/withSSRAuth";
 
 export default function Dashboard() {
   const { user, signOut, broadcastAuth } = useAuth();
+  
+
 
   useEffect(() => {
     api
       .get("/me")
       .then(({ data }) => console.log(data))
       .catch(console.error);
-  });
+  }, []);
 
   function handleSignOut() {
     broadcastAuth.current.postMessage("signOut");
@@ -22,7 +24,32 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>Dashboard: {user?.email ?? ""}</h1>
+      <h1>Bem vindo: {user?.name ?? ""}</h1>
+      <Link href="/meu-perfil">
+        <a>
+          <button>Meu Perfil</button>
+        </a>
+      </Link>
+
+
+      <CanRender roles={["Administrador"]}>
+  <Link href="/listar-user">
+    <a>
+      <button>Usuários Registrados</button>
+    </a>
+  </Link>
+</CanRender>
+
+<CanRender roles={["Administrador"]}>
+  <Link href="/new-user">
+    <a>
+      <button>Novo Usuário</button>
+    </a>
+  </Link>
+</CanRender>
+
+
+
 
       <CanRender roles={["administrator"]}>
         <h2>Metrics</h2>
@@ -35,7 +62,7 @@ export default function Dashboard() {
         <span>
           {" "}
           - The metrics page maybe will redirect you again to dashboard page, if
-          you don't have right permissions!
+          you have right permissions!
         </span>
       </p>
 

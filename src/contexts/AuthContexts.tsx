@@ -14,7 +14,10 @@ import { api } from "../services/apiClient";
 
 type User = {
   email: string;
+  ativo: boolean;
+  id: string;
   permissions: string[];
+  name: string;
   roles: string[];
 };
 
@@ -73,10 +76,13 @@ export function AuthContextProvider({ children }: AuthProvidedrProps) {
       api
         .get("/me")
         .then((response) => {
-          const { email, permissions, roles } = response.data;
+          const { email, permissions, name, roles, id, ativo } = response.data;
 
           setUser({
-            email,
+            email, 
+            ativo,
+            id,
+            name,
             permissions,
             roles,
           });
@@ -92,8 +98,15 @@ export function AuthContextProvider({ children }: AuthProvidedrProps) {
   async function signIn({ email, password }: SignInCredentials) {
     try {
       const response = await api.post("/sessions", { email, password });
-      const { token, refreshToken, permissions, roles } = response.data;
+      const { token, refreshToken, permissions, roles, name, id, ativo } = response.data;
 
+
+      if (!ativo) {
+        alert("Usuário não está ativo. Entre em contato com o suporte.");
+        return;
+      }
+
+      
       setCookie(undefined, "auth.token", token, {
         maxAge: 30 * 24 * 60 * 60, // 30 days
         path: "/",
@@ -105,6 +118,9 @@ export function AuthContextProvider({ children }: AuthProvidedrProps) {
 
       setUser({
         email,
+        name,
+        ativo,
+        id,
         permissions,
         roles,
       });
