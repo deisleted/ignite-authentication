@@ -4,9 +4,9 @@ import {
   GetServerSidePropsResult,
 } from "next";
 import { destroyCookie, parseCookies } from "nookies";
-import { AuthTokenError } from "../errors/AuthTokenError";
+import { AuthTokenError } from "../../errors/AuthTokenError";
 import decode from "jwt-decode";
-import { validateUserPermissions } from "../utils/validateUserPermissions";
+import { validateUserPermissions } from "./validateUserPermissions";
 
 type WithSSRAuthProps = {
   permissions?: string[];

@@ -1,4 +1,4 @@
-import Router from "next/router";
+import Router from 'next/router'
 import {
   createContext,
   MutableRefObject,
@@ -7,114 +7,114 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
+} from 'react'
+import { destroyCookie, parseCookies, setCookie } from 'nookies'
 
-import { api } from "../services/apiClient";
+import { api } from '../services/apiClient'
 
 type User = {
-  email: string;
-  ativo: boolean;
-  id: string;
-  permissions: string[];
-  name: string;
-  roles: string[];
-};
+  email: string
+  ativo: boolean
+  id: string
+  permissions: string[]
+  name: string
+  roles: string[]
+}
 
 type SignInCredentials = {
-  email: string;
-  password: string;
-};
+  email: string
+  password: string
+}
 
 type AuthContextData = {
-  user: User;
-  signIn: (credentials: SignInCredentials) => Promise<void>;
-  signOut: () => void;
-  isAuthenticated: boolean;
-  broadcastAuth: MutableRefObject<BroadcastChannel>;
-};
+  user: User
+  signIn: (credentials: SignInCredentials) => Promise<void>
+  signOut: () => void
+  isAuthenticated: boolean
+  broadcastAuth: MutableRefObject<BroadcastChannel>
+}
 
 type AuthProvidedrProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
-const AuthContext = createContext({} as AuthContextData);
+const AuthContext = createContext({} as AuthContextData)
 
 export function signOut() {
-  destroyCookie(undefined, "auth.token");
-  destroyCookie(undefined, "auth.refreshToken");
+  destroyCookie(undefined, 'auth.token')
+  destroyCookie(undefined, 'auth.refreshToken')
 
-  Router.push("/");
+  Router.push('/')
 }
 
 export function AuthContextProvider({ children }: AuthProvidedrProps) {
-  const [user, setUser] = useState<User>();
-  const isAuthenticated = useMemo(() => Boolean(user), [user]);
-  const broadcastAuth = useRef<BroadcastChannel>(null);
+  const [user, setUser] = useState<User>()
+  const isAuthenticated = useMemo(() => Boolean(user), [user])
+  const broadcastAuth = useRef<BroadcastChannel>(null)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    broadcastAuth.current = new BroadcastChannel("auth");
+    broadcastAuth.current = new BroadcastChannel('auth')
 
     broadcastAuth.current.onmessage = (message) => {
       switch (message.data) {
-        case "signOut":
-          signOut();
-          break;
+        case 'signOut':
+          signOut()
+          break
 
         default:
-          break;
+          break
       }
-    };
-  }, [broadcastAuth]);
+    }
+  }, [broadcastAuth])
 
   useEffect(() => {
-    const { "auth.token": token } = parseCookies();
+    const { 'auth.token': token } = parseCookies()
 
     async function loadInitialData() {
-      if (!token) return;
+      if (!token) return
 
       api
-        .get("/me")
+        .get('/me')
         .then((response) => {
-          const { email, permissions, name, roles, id, ativo } = response.data;
+          const { email, permissions, name, roles, id, ativo } = response.data
 
           setUser({
-            email, 
+            email,
             ativo,
             id,
             name,
             permissions,
             roles,
-          });
+          })
         })
         .catch(() => {
-          signOut();
-        });
+          signOut()
+        })
     }
 
-    loadInitialData();
-  }, []);
+    loadInitialData()
+  }, [])
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
-      const response = await api.post("/sessions", { email, password });
-      const { token, refreshToken, permissions, roles, name, id, ativo } = response.data;
-
+      const response = await api.post('/sessions', { email, password })
+      const { token, refreshToken, permissions, roles, name, id, ativo } =
+        response.data
 
       if (!ativo) {
-        alert("Usuário não está ativo. Entre em contato com o suporte.");
-        return;
+        alert('Usuário não está ativo. Entre em contato com o suporte.')
+        return
       }
 
-      
-      setCookie(undefined, "auth.token", token, {
+      setCookie(undefined, 'auth.token', token, {
         maxAge: 30 * 24 * 60 * 60, // 30 days
-        path: "/",
-      });
-      setCookie(undefined, "auth.refreshToken", refreshToken, {
+        path: '/',
+      })
+      setCookie(undefined, 'auth.refreshToken', refreshToken, {
         maxAge: 30 * 24 * 60 * 60, // 30 days
-        path: "/",
-      });
+        path: '/',
+      })
 
       setUser({
         email,
@@ -123,14 +123,19 @@ export function AuthContextProvider({ children }: AuthProvidedrProps) {
         id,
         permissions,
         roles,
-      });
+      })
 
-      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      api.defaults.headers.Authorization = `Bearer ${token}`
 
-      Router.push("/dashboard");
+      Router.push('/dashboard')
     } catch (error) {
-      alert("Falha na autenticação, verifique seus dados");
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage('E-mail or password incorrect.')
+      } else {
+        setErrorMessage('Failed to authenticate. Check your credentials.')
+      }
+
+      console.error('Error during authentication:', error)
     }
   }
 
@@ -140,7 +145,7 @@ export function AuthContextProvider({ children }: AuthProvidedrProps) {
     >
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)
