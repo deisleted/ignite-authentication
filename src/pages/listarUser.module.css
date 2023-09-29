@@ -1,0 +1,76 @@
+.container {
+    margin: auto;
+    background-color: var(--gray-100);
+    height: 94vh;
+    max-height: 100%;
+    width: 100vh;
+    min-width: 100%;
+    padding: 1rem 2rem 1rem  2rem;
+   
+}
+
+/* Botão e Barra de Pesquisa */
+.search {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* Tabela de usuários*/ 
+.table { 
+    margin-top: 2.5rem;
+    width: 100%;
+    border-collapse: collapse;   
+}
+
+.th {
+    background: #e1e1e1;
+    height: 2.5rem;
+    max-height: 100%;
+    border-bottom: 2px solid var(--gray-200); 
+    padding-left: 4px;
+    color: var(--gray-400);
+    text-align: start;
+    
+
+}
+
+
+.td {
+    height: 2.5rem;
+    max-height: 100%;
+    border-bottom: 1px solid var(--gray-200); 
+    color: var(--gray-500);
+    padding-left: 4px;
+}
+
+
+.buttonDiv {
+    display: flex;
+    width: 100%;
+    height: 2.60rem;
+    max-height: 100%;
+    justify-content: space-between;
+    color: var(--gray-500);
+    padding: 10px 10px 0px 4px;
+    border-bottom: 1px solid var(--gray-200); 
+
+
+}
+
+
+
+
+.button {
+    color: var(--secundary);
+    height: 1.5rem;
+    content: \F4FA;
+    cursor: pointer;
+    
+}
+
+.button:hover {
+    color: var(--primary);
+    transition: 0.1s;
+}

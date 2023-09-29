@@ -112,12 +112,12 @@
   border: 1px solid var(--gray-200);
   border-radius: 4px;
   margin-bottom: 0.25rem;
-  padding-left: 1rem;
+  padding-left: 0.75rem;
 }
 
 .input:focus {
   outline: none !important;
-  border:1px solid var(--purple-dark);
+  border:1px solid var(--secundary);
 }
 
 .input::placeholder {

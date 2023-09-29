@@ -6,15 +6,14 @@ import { withSSRGuest } from '../styles/utils/withSSRGuest'
 import Styles from './index.module.css'
 import { useForm } from 'react-hook-form'
 
+// Validações do formulário
 const loginSchema = z.object({
   email: z
     .string()
     .toLowerCase()
     .nonempty('O E-mail é obrigatório')
-    .email('Formato de e-mail inválido'),
-  password: z
-    .string()
-    .min(6, 'tuddd A senha precisa ter no mínimo 6 caracteres'),
+    .email('Formato de E-mail inválido'),
+  password: z.string().min(6, 'A senha precisa ter no mínimo 6 caracteres'),
 })
 
 type LoginFormData = z.infer<typeof loginSchema>
@@ -144,9 +143,7 @@ export default function Home() {
                 errors.password ? Styles.visible : ''
               }`}
             >
-              {errors.password
-                ? errors.password.message
-                : 'Digite uma senha Valida'}
+              {errors.password ? errors.password.message : ''}
             </span>
 
             <button

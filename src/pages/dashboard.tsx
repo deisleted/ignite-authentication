@@ -4,6 +4,9 @@ import { CanRender } from '../components/CanRender'
 import { useAuth } from '../contexts/AuthContexts'
 import { api } from '../services/apiClient'
 import { withSSRAuth } from '../styles/utils/withSSRAuth'
+import Navbar from '../components/Navbar'
+import MeuPerfil from './meuPerfil'
+import UserList from './listarUser'
 
 export default function Dashboard() {
   const { user, signOut, broadcastAuth } = useAuth()
@@ -22,51 +25,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>Bem vindo: {user?.name ?? ''}</h1>
-      <Link href="/meu-perfil">
-        <a>
-          <button>Meu Perfil</button>
-        </a>
-      </Link>
-
-      <CanRender roles={['Administrador']}>
-        <Link href="/listar-user">
-          <a>
-            <button>Usuários Registrados</button>
-          </a>
-        </Link>
-      </CanRender>
-
-      <CanRender roles={['Administrador']}>
-        <Link href="/new-user">
-          <a>
-            <button>Novo Usuário</button>
-          </a>
-        </Link>
-      </CanRender>
-
-      <CanRender roles={['administrator']}>
-        <h2>Metrics</h2>
-      </CanRender>
-
-      <p>
-        <Link href="/metrics">
-          <a>Access Metrics Page</a>
-        </Link>
-        <span>
-          {' '}
-          - The metrics page maybe will redirect you again to dashboard page, if
-          you have right permissions!
-        </span>
-      </p>
-
-      <button onClick={handleSignOut}>Sign Out</button>
-
-      <CanRender roles={['editor']}>
-        <h2>Posts</h2>
-      </CanRender>
+      <Navbar />
+      <UserList />
     </>
   )
 }
 
 export const getServerSideProps = withSSRAuth(async (ctx) => ({ props: {} }))
+
+//  <MeuPerfil />

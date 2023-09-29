@@ -2,6 +2,7 @@
 
 :root {
   --primary: #4f46e5;
+  --secundary: #0050DC;
   --purple-dark: #5E60CE;
   --blue: #4EA8DE;
   --blue-dark: #1E6F9F;
@@ -17,6 +18,8 @@
   --danger: #e25858;
 
   --white: #ffff;
+
+
 }
 
 * {
@@ -28,9 +31,6 @@
 body {
 
   -webkit-font-smoothing: antialiased;
-  background: var(--white);
-
-
 }
 
 body,

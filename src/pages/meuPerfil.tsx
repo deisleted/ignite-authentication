@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { z } from 'zod'
 import { useAuth } from '../contexts/AuthContexts'
 import { api } from '../services/apiClient'
+import styled from './meuPerfil.module.css'
 
 const MeuPerfil = () => {
   const { user, signOut } = useAuth()
@@ -70,19 +72,21 @@ const MeuPerfil = () => {
   }
 
   return (
-    <div>
-      <Link href="/dashboard">
-        <a>
-          <button>Voltar à Página Principal</button>
-        </a>
-      </Link>
-
-      <h1>Meu Perfil</h1>
+    <div className={styled.container}>
       {userData && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styled.form}>
           <div>
-            <label htmlFor="name">Nome:</label>
+            <h1>Editar Perfil</h1>
+            <span>
+              Preencha os campos abaixo para realizar a edição do perfil.
+            </span>
+          </div>
+          <div>
+            <label htmlFor="name" className={styled.label}>
+              Nome:
+            </label>
             <input
+              className={styled.input}
               type="text"
               id="name"
               name="name"
@@ -92,8 +96,11 @@ const MeuPerfil = () => {
             />
           </div>
           <div>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email" className={styled.label}>
+              Email:
+            </label>
             <input
+              className={styled.input}
               type="email"
               id="email"
               name="email"
@@ -102,8 +109,11 @@ const MeuPerfil = () => {
             />
           </div>
           <div>
-            <label htmlFor="password">Nova Senha:</label>
+            <label htmlFor="password" className={styled.label}>
+              Nova Senha:
+            </label>
             <input
+              className={styled.input}
               type="password"
               id="password"
               name="password"
@@ -113,8 +123,11 @@ const MeuPerfil = () => {
             />
           </div>
           <div>
-            <label htmlFor="confirmPassword">Confirme a Senha:</label>
+            <label htmlFor="confirmPassword" className={styled.label}>
+              Confirme a Senha:
+            </label>
             <input
+              className={styled.input}
               type="password"
               id="confirmPassword"
               name="confirmPassword"
@@ -135,7 +148,9 @@ const MeuPerfil = () => {
               </div>
             )}
           </div>
-          <button type="submit">Salvar Alterações</button>
+          <button className={styled.button} type="submit">
+            Salvar Alterações
+          </button>
         </form>
       )}
     </div>

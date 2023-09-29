@@ -1,0 +1,92 @@
+.nav {
+    display: flex; 
+    flex-direction: row;
+    height: 6vh;
+    max-height: 100%;
+    width: 100vh;
+   min-width: 100%;
+   border-bottom: 1px solid var(--gray-200)
+   
+  }
+
+
+/* Logo */
+.logo {
+    flex: 2;
+    justify-content: space-between;
+    margin-left: 1rem;
+}
+
+.svg {
+   display: flex;
+   width: 145px;
+   height: 45px;
+   align-content: center;
+   justify-content: center;
+   margin: 5px 50px 0px 15px;
+   padding-bottom: 5px;
+
+}
+
+
+
+/* itens do menu */
+  .ul {
+    flex: 8;
+    display: flex; 
+    flex-direction: row;
+    justify-content: flex-end;
+    list-style-type: none;
+    padding: 15px 50px 15px 15px;
+}
+
+  .li {
+    text-decoration: none;
+    justify-content:space-around;
+    color: var(--gray-400);
+    margin-left: 1rem;
+}
+
+.a {
+    list-style-type: none;
+    text-decoration: none;
+    color: var(--gray-400);
+}
+
+.a:hover {
+    color: var(--secundary);
+    transition: 0.1s;
+}
+
+
+
+/* Saudação */
+.saudacao {  
+    flex: 2;
+    justify-content: space-between;
+    list-style-type: none;
+    text-decoration: none;
+    color: var(--gray-700);
+    padding: 15px 50px 10px 15px;
+
+}
+
+/* Saida */ 
+
+.button {
+    color: var(--secundary);
+    width: 100px;
+    height: 2.75rem;
+    content: \F4FA;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 10px 0px 15px;ms: center;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: var(--primary);
+    transition: 0.1s;
+}
